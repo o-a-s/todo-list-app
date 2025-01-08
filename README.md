@@ -19,23 +19,16 @@ This is a RESTful API for managing a todo list, built using FastAPI, SQLModel, a
     docker compose up -d
     ```
 
-3. **Initialize migrations:**
+3. **Upgrade migrations:**
 
 
-   1. **Make sure the docker compose is running.**
-   2.  **Generate the initial migration:**
+   1. **Make sure the docker containers are running.**
 
-        ```bash
-        docker compose exec fastapi alembic revision --autogenerate -m "Initial migration"
-        ```
-
-   3.  **Apply the migration:**
+   2.  **Apply the migration:**
 
         ```bash
         docker compose exec fastapi alembic upgrade head
         ```
-
-    **OR you can use `init_db.sh` to run commands in step 2 and 3**
 
     ## Subsequent Migrations
 
@@ -51,6 +44,8 @@ This is a RESTful API for managing a todo list, built using FastAPI, SQLModel, a
     ```bash
     docker compose exec fastapi alembic upgrade head
     ```
+
+    **OR you can use `init_db.sh` to run commands in step 2 and 3**
 
 ## Accessing the API
 
