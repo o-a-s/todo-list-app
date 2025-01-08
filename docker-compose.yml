@@ -1,0 +1,46 @@
+name: todo-list
+
+services:
+
+  fastapi:
+    build: .
+    container_name: todo-fastapi
+    restart: always
+    command: "sh -c 'alembic upgrade head && fastapi dev app/main.py --host 0.0.0.0 --port 3000'"
+    env_file:
+      - .env
+    ports:
+      - 3000:3000
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./src/backend/:/app/src/backend/
+    networks:
+      - todo-network
+
+  postgres:
+    image: postgres:17.0-alpine3.20
+    container_name: todo-postgres-db
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - 5432:5432
+    volumes:
+      - ./src/backend/pg_data:/var/lib/postgresql/data
+    networks:
+      - todo-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pg_data:
+
+networks:
+  todo-network:
+    name: todo-network
+    driver: bridge
