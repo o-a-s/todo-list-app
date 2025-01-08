@@ -186,7 +186,7 @@ The API endpoints are defined in `src/backend/app/api/todo_item.py`.
         {
           "title": "string",
           "description": "string",
-          "status": "pending" | "completed",
+          "status": ["pending", "in_progress", "completed"],
           "due_date": "datetime(timezone)"
         }
         ```
