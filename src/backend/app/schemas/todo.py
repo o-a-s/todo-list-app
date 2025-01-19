@@ -1,7 +1,7 @@
 from uuid import UUID
 from datetime import datetime
 from pydantic import BaseModel, Field, ConfigDict
-from ..models.todo_item import TodoStatus
+from ..models.todo import TodoStatus
 
 
 class TodoBase(BaseModel):

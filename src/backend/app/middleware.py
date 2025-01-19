@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 
 from .utils.custom_logger import CustomLogger
-logger = CustomLogger(__name__)
+logger = CustomLogger(__name__).logger
 
 def register_middleware(app: FastAPI):
     
@@ -14,7 +14,6 @@ def register_middleware(app: FastAPI):
         start_time = time.perf_counter()
         
         response = await call_next(request)
-        processing_time = time.perf_counter() - start_time
         
         client_ip = request.client.host
         client_port = request.client.port
@@ -22,9 +21,11 @@ def register_middleware(app: FastAPI):
         path = request.url.path
         status_code = response.status_code
         
-        message = f"Client: {client_ip}:{client_port} | Method {method} | Path: {path} | Status: {status_code} | Time: completed after {processing_time:.5f}s"
-        
-        logger.info(message)
+        if status_code < 400:
+            processing_time = time.perf_counter() - start_time
+            message = f"Client: {client_ip}:{client_port} | Method {method} | Path: {path} | Status: {status_code} | Time: completed after {processing_time:.5f}s"
+            logger.info(message)
+            
         return response
     
     app.add_middleware(

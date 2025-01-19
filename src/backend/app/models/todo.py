@@ -14,11 +14,11 @@ class TodoStatus(str, Enum):
     COMPLETED = "completed"
 
 
-class TodoItem(SQLModel, table=True):
+class Todo(SQLModel, table=True):
     """
     Represents a todo item in the database.
     """
-    __tablename__ = "todoitems"
+    __tablename__ = "todos"
 
     id: UUID = Field(
         sa_column=Column(pg.UUID, primary_key=True, default=uuid4, index=True),
