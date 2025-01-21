@@ -6,7 +6,7 @@ This is a RESTful API for managing a todo list, built using FastAPI, SQLModel, a
 - [Todo List Application](#todo-list-application)
   - [Table of Contents](#table-of-contents)
   - [Getting Started](#getting-started)
-  - [Subsequent Migrations](#subsequent-migrations)
+  - [Create New Migrations](#create-new-migrations)
   - [Accessing the API](#accessing-the-api)
   - [Project Structure](#project-structure)
   - [Tech Stack](#tech-stack)
@@ -34,16 +34,7 @@ This is a RESTful API for managing a todo list, built using FastAPI, SQLModel, a
     docker compose up -d
     ```
 
-3. **Upgrade migrations:**
-
-    1. **Make sure the docker containers are running.**
-    2. **Apply the migration:**
-
-        ```bash
-        docker compose exec fastapi alembic upgrade head
-        ```
-
-## Subsequent Migrations
+## Create New Migrations
 
 For subsequent database schema changes:
 
@@ -59,8 +50,6 @@ For subsequent database schema changes:
     docker compose exec fastapi alembic upgrade head
     ```
 
-    **OR you can use `init_db.sh` to run commands in steps 1 and 2**
-
 ## Accessing the API
 
 Once the containers are up and the database is initialized, the API will be accessible at `http://localhost:3000`. You can use API client tools like `curl` to interact with the API endpoints.
@@ -73,7 +62,7 @@ The project is structured as follows:
 
 - `src/backend/`: Contains the backend code.
     - `alembic/`: Database migration scripts and versions.
-    - `app/`: Core application logic.
+    - `core_api/`: Core application logic.
         - `api/`: API endpoints.
         - `deps/`: Dependency injection.
         - `exceptions/`: Custom exceptions.
@@ -82,21 +71,22 @@ The project is structured as follows:
         - `schemas/`: Pydantic schemas for data validation.
         - `services/`: Business logic.
         - `utils/`: Utility functions.
-    - `pg_data/`: PostgreSQL data.
+- `postgres_data/`: PostgreSQL data.
 - `.env.example`: Modify and add your environment values.
 - `requirements.txt`: Project dependencies.
 - `Dockerfile`: Defines the Docker container for the FastAPI application.
 - `docker-compose.yml`: Configures Docker Compose for running the FastAPI application along with PostgreSQL DB containers.
-- `init_db.sh`: A script to initialize the database migrations.
 
 ## Tech Stack
 
-- **Language**: Python 3.10.16
+- **Language**: Python 3.10
 - **Framework**: FastAPI
-- **Database**: PostgreSQL (using SQLModel)
+- **Database**: PostgreSQL 17
 - **ORM**: SQLModel
 - **Database Driver**: asyncpg
+- **Database Migrations**: Alembic
 - **Asynchronous Operations**: Asyncio
+- **Containerization**: Docker & Docker Compose
 
 ## Dependencies
 

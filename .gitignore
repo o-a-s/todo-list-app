@@ -3,4 +3,4 @@ venv/
 .venv/
 .env
 *.env
-pg_data/
+postgres_data/

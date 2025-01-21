@@ -10,8 +10,8 @@ from sqlalchemy.ext.asyncio import create_async_engine
 import sys
 import pathlib
 sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
-from app.config import settings
-from app.models import *
+from api_core.config import settings
+from api_core.models import *
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

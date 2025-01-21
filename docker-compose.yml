@@ -3,10 +3,12 @@ name: todo-list
 services:
 
   fastapi:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: todo-fastapi
-    restart: always
-    command: "sh -c 'fastapi dev app/main.py --host 0.0.0.0 --port 3000'"
+    restart: unless-stopped
+    command: fastapi dev api_core/main.py --host 0.0.0.0 --port 3000
     env_file:
       - .env
     ports:
@@ -15,20 +17,20 @@ services:
       postgres:
         condition: service_healthy
     volumes:
-      - ./src/backend/:/app/src/backend/
+      - ./src/backend/:/app/
     networks:
       - todo-network
 
   postgres:
     image: postgres:17.0-alpine3.20
     container_name: todo-postgres-db
-    restart: always
+    restart: unless-stopped
     env_file:
       - .env
     ports:
       - 5432:5432
     volumes:
-      - ./src/backend/pg_data:/var/lib/postgresql/data
+      - ./postgres_data:/var/lib/postgresql/data
     networks:
       - todo-network
     healthcheck:
@@ -38,7 +40,7 @@ services:
       retries: 5
 
 volumes:
-  pg_data:
+  postgres_data:
 
 networks:
   todo-network:
