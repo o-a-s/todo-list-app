@@ -11,6 +11,12 @@ services:
     command: fastapi dev api_core/main.py --host 0.0.0.0 --port 3000
     env_file:
       - .env
+    environment:
+      - ENV
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+      - DATABASE_URL
     ports:
       - 3000:3000
     depends_on:
@@ -27,6 +33,10 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
     ports:
       - 5432:5432
     volumes:
